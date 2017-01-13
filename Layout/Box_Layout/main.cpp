@@ -26,9 +26,11 @@ int main(int argc, char *argv[])
     QBoxLayout *bottomLayout = new QHBoxLayout();
     mainLayout->addLayout(bottomLayout);
     QBoxLayout *leftLayout = new QVBoxLayout();
-    mainLayout->addLayout(leftLayout);
+    topLayout->addLayout(leftLayout);
     QBoxLayout *rightLayout = new QVBoxLayout();
-    mainLayout->addLayout(rightLayout,1);
+    topLayout->addLayout(rightLayout,1);
+
+
 
     QComboBox *combo = new QComboBox();
     combo->addItem("fizyka");
@@ -49,7 +51,7 @@ int main(int argc, char *argv[])
 
     QGroupBox *gb1 = new QGroupBox(QObject::tr("Sesja"));
     leftLayout->addWidget(gb1);
-    QVBoxLayout *gb1Layout = new QVBoxLayout(gb1); // ??? QVBoxLayout *gb1Layout = new QVBoxLayout(gb1)
+    QBoxLayout *gb1Layout = new QVBoxLayout(gb1); // ??? QVBoxLayout *gb1Layout = new QVBoxLayout(gb1)
     QRadioButton *rb1 = new QRadioButton(QObject::tr("zimowa"));
     gb1Layout->addWidget(rb1);
     QRadioButton *rb2 = new QRadioButton(QObject::tr("zimowa"));
