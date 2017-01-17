@@ -1,6 +1,7 @@
 #include "window.h"
 #include <QTextCharFormat>
 #include<QDate>
+#include<QDebug>
 
 Window::Window(QWidget *parent)
     : QWidget(parent)
@@ -38,18 +39,20 @@ Window::Window(QWidget *parent)
 
     QGroupBox *gb1 = new QGroupBox(QObject::tr("Sesja"));
     leftLayout->addWidget(gb1);
-    QBoxLayout *gb1Layout = new QVBoxLayout(gb1); // ??? QVBoxLayout *gb1Layout = new QVBoxLayout(gb1)
-    QRadioButton *rb1 = new QRadioButton(QObject::tr("letnia"));
-    gb1Layout->addWidget(rb1);
-    QRadioButton *rb2 = new QRadioButton(QObject::tr("zimowa"));
-    gb1Layout->addWidget(rb2);
+    QBoxLayout *gb1Layout = new QVBoxLayout(gb1);
+    radio_b_1 = new QRadioButton(QObject::tr("letnia"));
+    gb1Layout->addWidget(radio_b_1);
+    radio_b_2 = new QRadioButton(QObject::tr("zimowa"));
+    gb1Layout->addWidget(radio_b_2);
+    radio_b_1->setChecked(true);     //set default value (letnia)
 
-    QCheckBox *checkBox1 = new QCheckBox(QObject::tr("Dziekanat otwarty"));
+    checkBox1 = new QCheckBox(QObject::tr("Dziekanat otwarty"));
     leftLayout->addWidget(checkBox1);
 
     calendar = new QCalendarWidget();
     leftLayout->addWidget(calendar);
     leftLayout->addStretch(1);
+    this->s_letnia(true);       //set default value (letnia)
 
     QGroupBox *gb2 = new QGroupBox(QObject::tr("Uwagi"));
     rightLayout->addWidget(gb2);
@@ -67,7 +70,10 @@ Window::Window(QWidget *parent)
 
 
     QObject::connect(checkBox1,SIGNAL(toggled(bool)),this,SLOT(open_days_dziekanat(bool)));
+    QObject::connect(radio_b_1,SIGNAL(toggled(bool)),this,SLOT(s_letnia(bool)));
+    QObject::connect(radio_b_2,SIGNAL(toggled(bool)),this,SLOT(s_zimowa(bool)));
     QObject::connect(pb2, SIGNAL(pressed()), this, SLOT(close()));
+    QObject::connect(pb1, SIGNAL(pressed()), this, SLOT(push_b_OK()));
 
 
 
@@ -76,10 +82,13 @@ Window::Window(QWidget *parent)
 
 void Window::open_days_dziekanat(bool show_open_day)
 {
-    QDate d1(2017, 1, 12);
-    QDate d2(2017, 1, 13);
-    QDate d3(2017, 1, 14);
     QTextCharFormat format;
+    QDate d1(2017, 1, 2);
+    QDate d2(2017, 1, 3);
+    QDate d3(2017, 1, 4);
+    QDate d4(2017, 2, 10);
+    QDate d5(2017, 2, 14);
+    QDate d6(2017, 2, 24);
 
     if(show_open_day == true)
     {
@@ -88,15 +97,58 @@ void Window::open_days_dziekanat(bool show_open_day)
     } else {
         format.setBackground(Qt::white);
     }
-    calendar->setDateTextFormat(d1,format);
-    calendar->setDateTextFormat(d2,format);
-    calendar->setDateTextFormat(d3,format);
+
+
+    if(radio_b_1->isChecked() == true)
+    {
+        calendar->setDateTextFormat(d1,format);
+        calendar->setDateTextFormat(d2,format);
+        calendar->setDateTextFormat(d3,format);
+
+    } else if(radio_b_2->isChecked() == true)
+    {
+        calendar->setDateTextFormat(d4,format);
+        calendar->setDateTextFormat(d5,format);
+        calendar->setDateTextFormat(d6,format);
+
+    }
+
+
+}
+
+void Window::s_letnia(bool czy_letnia)
+{
+
+    if( czy_letnia == true)
+    {
+        QDate d1(2017, 1, 1);
+        QDate d2(2017, 1, 10);
+        calendar->setDateRange(d1, d2);
+    }
+    emit open_days_dziekanat(checkBox1->isChecked());
+
+}
+
+void Window::s_zimowa(bool czy_zimowa)
+{
+    if( czy_zimowa == true)
+    {
+        QDate d1(2017, 2, 02);
+        QDate d2(2017, 2, 25);
+        calendar->setDateRange(d1, d2);
+    }
+    emit open_days_dziekanat(checkBox1->isChecked());
+}
+
+void Window::push_b_OK()
+{
 
 }
 
 
 
+
 Window::~Window()
 {
-
+    delete calendar;
 }
