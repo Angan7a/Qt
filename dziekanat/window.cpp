@@ -90,7 +90,9 @@ Window::Window(QWidget *parent)
 
 void Window::open_days_dziekanat(bool show_open_day)
 {
-    QTextCharFormat format;
+    QTextCharFormat format, base_format;
+
+    QDate d0(2017, 1, 1);
     QDate d1(2017, 1, 2);
     QDate d2(2017, 1, 3);
     QDate d3(2017, 1, 4);
@@ -98,12 +100,14 @@ void Window::open_days_dziekanat(bool show_open_day)
     QDate d5(2017, 2, 14);
     QDate d6(2017, 2, 24);
 
+    base_format = calendar->dateTextFormat(d0);
+
     if(show_open_day == true)
     {
         format.setBackground(Qt::gray);
 
     } else {
-        format.setBackground(Qt::white);
+        format = base_format;
     }
 
 
