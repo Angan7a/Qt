@@ -2,6 +2,8 @@
 #include <QTextCharFormat>
 #include<QDate>
 #include<QDebug>
+#include"dialog.h"
+
 
 Window::Window(QWidget *parent)
     : QWidget(parent)
@@ -73,7 +75,13 @@ Window::Window(QWidget *parent)
     QObject::connect(radio_b_1,SIGNAL(toggled(bool)),this,SLOT(s_letnia(bool)));
     QObject::connect(radio_b_2,SIGNAL(toggled(bool)),this,SLOT(s_zimowa(bool)));
     QObject::connect(pb2, SIGNAL(pressed()), this, SLOT(close()));
-    QObject::connect(pb1, SIGNAL(pressed()), this, SLOT(push_b_OK()));
+    QObject::connect(pb1, SIGNAL(pressed()), this, SLOT(pushed_b_OK()));
+
+
+    QObject::connect(this, SIGNAL(pressed_button(QString,QString)), this, SLOT(show_confirmation(QString,QString)));
+
+
+
 
 
 
@@ -125,7 +133,7 @@ void Window::s_letnia(bool czy_letnia)
         QDate d2(2017, 1, 10);
         calendar->setDateRange(d1, d2);
     }
-    emit open_days_dziekanat(checkBox1->isChecked());
+    emit open_days_dziekanat(checkBox1->isChecked());   // maybe it is not needed if it is in "s_zimowa"
 
 }
 
@@ -137,13 +145,17 @@ void Window::s_zimowa(bool czy_zimowa)
         QDate d2(2017, 2, 25);
         calendar->setDateRange(d1, d2);
     }
-    emit open_days_dziekanat(checkBox1->isChecked());
+    emit open_days_dziekanat(checkBox1->isChecked());   // maybe it is not needed if it is in "s_letnia"
 }
 
-void Window::push_b_OK()
+void Window::pushed_b_OK()
+
 {
-
+        Dialog check_dialog;
+        check_dialog.setModal(true);
+        check_dialog.exec();
 }
+
 
 
 
