@@ -34,6 +34,8 @@ signals:
 
 private:
     QCalendarWidget *calendar;
+    QLineEdit *imie;
+    QLineEdit *nazwisko;
     QRadioButton *radio_b_1;
     QRadioButton *radio_b_2;
     QCheckBox *checkBox1;

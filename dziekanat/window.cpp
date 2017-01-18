@@ -2,8 +2,8 @@
 #include <QTextCharFormat>
 #include<QDate>
 #include<QDebug>
-#include"dialog.h"
 #include<QMessageBox>
+#include<QLineEdit>
 
 
 Window::Window(QWidget *parent)
@@ -21,7 +21,17 @@ Window::Window(QWidget *parent)
     QBoxLayout *rightLayout = new QVBoxLayout();
     topLayout->addLayout(rightLayout,1);
 
+    QBoxLayout *imie_layout = new QHBoxLayout();
+    imie_layout->addWidget(new QLabel(QObject::tr("Imię:        ")));
+    imie = new QLineEdit;
+    imie_layout->addWidget(imie);
+    leftLayout->addLayout(imie_layout);
 
+    QBoxLayout *nazwisko_layout = new QHBoxLayout();
+    nazwisko_layout->addWidget(new QLabel(QObject::tr("Nazwisko:")));
+    nazwisko = new QLineEdit;
+    nazwisko_layout->addWidget(nazwisko);
+    leftLayout->addLayout(nazwisko_layout);
 
     combo = new QComboBox();
     combo->addItem("fizyka");
@@ -34,7 +44,7 @@ Window::Window(QWidget *parent)
 
     spinBox = new QSpinBox();
     spinBox->setRange(1,5);
-    spinBox->setSuffix(QObject::tr("Rok"));
+    spinBox->setSuffix(QObject::tr(" rok"));
     QBoxLayout *spinLayout  = new QHBoxLayout();
     spinLayout->addWidget(new QLabel(QObject::tr("Rok studiow")));
     spinLayout->addWidget(spinBox);
@@ -156,16 +166,26 @@ void Window::s_zimowa(bool czy_zimowa)
 void Window::pushed_b_OK()
 
 {
-        //Dialog check_dialog;
 
-        //check_dialog.setModal(true);
-        QMessageBox::information(this, "Potwierdzenie danych" ,
-                                 "Kierunek: " + combo->currentText() + '\n' +
-                                 "Rok: " + QString::number(spinBox->value()) + '\n' +
-                                 "Data konsultacji: " + calendar->selectedDate().toString("dd.MM.yyyy") + '\n' +
-                                 "Uwagi: " + uwagi->toPlainText() );
+    QMessageBox mBox;
+    mBox.setWindowTitle("Potwierdzenie");
+    mBox.setText(QObject::tr("Imię: ") + imie->text() + '\n' +
+                 QObject::tr("Nazwisko: ") + nazwisko->text() + '\n' +
+                 QObject::tr("Kierunek: ") + combo->currentText() + '\n' +
+                 QObject::tr("Rok: ") + QString::number(spinBox->value()) + '\n' +
+                 QObject::tr("Data konsultacji: ") + calendar->selectedDate().toString("dd.MM.yyyy") + '\n' +
+                 QObject::tr("Uwagi: ") + uwagi->toPlainText() );
 
-        //check_dialog.exec();
+    QAbstractButton *p_button_OK = mBox.addButton(QObject::tr("OK"), QMessageBox::NoRole);
+    mBox.addButton(QObject::tr("Anuluj"), QMessageBox::YesRole);
+
+    mBox.exec();
+
+    if (mBox.clickedButton() == p_button_OK )
+    {
+        QMessageBox::information(this,QObject::tr("Potwierdzenie"), QObject::tr("Dziękuję! \nZostałeś dopisany" ));
+    }
+
 }
 
 
