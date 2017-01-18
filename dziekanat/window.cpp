@@ -3,6 +3,7 @@
 #include<QDate>
 #include<QDebug>
 #include"dialog.h"
+#include<QMessageBox>
 
 
 Window::Window(QWidget *parent)
@@ -78,7 +79,7 @@ Window::Window(QWidget *parent)
     QObject::connect(pb1, SIGNAL(pressed()), this, SLOT(pushed_b_OK()));
 
 
-    QObject::connect(this, SIGNAL(pressed_button(QString,QString)), this, SLOT(show_confirmation(QString,QString)));
+    //QObject::connect(this, SIGNAL(pressed_button(QString,QString)), this, SLOT(show_confirmation(QString,QString)));
 
 
 
@@ -153,6 +154,8 @@ void Window::pushed_b_OK()
 {
         Dialog check_dialog;
         check_dialog.setModal(true);
+        QMessageBox::information(this, kierunek+"/n"+ kierunek , kierunek +'\n'+kierunek);
+
         check_dialog.exec();
 }
 

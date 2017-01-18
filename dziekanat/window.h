@@ -18,6 +18,7 @@ class Window : public QWidget
     Q_OBJECT
 
 public:
+    QString kierunek="kierunek";
     Window(QWidget *parent = 0);
     ~Window();
 
