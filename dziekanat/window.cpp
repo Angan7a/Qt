@@ -23,7 +23,7 @@ Window::Window(QWidget *parent)
 
 
 
-    QComboBox *combo = new QComboBox();
+    combo = new QComboBox();
     combo->addItem("fizyka");
     combo->addItem("matematyka");
     combo->addItem("chemia");
@@ -32,7 +32,7 @@ Window::Window(QWidget *parent)
     cbLayout->addWidget(combo);
     leftLayout->addLayout(cbLayout);
 
-    QSpinBox *spinBox = new QSpinBox();
+    spinBox = new QSpinBox();
     spinBox->setRange(1,5);
     spinBox->setSuffix(QObject::tr("Rok"));
     QBoxLayout *spinLayout  = new QHBoxLayout();
@@ -60,8 +60,8 @@ Window::Window(QWidget *parent)
     QGroupBox *gb2 = new QGroupBox(QObject::tr("Uwagi"));
     rightLayout->addWidget(gb2);
     QBoxLayout *gb2Layout = new QVBoxLayout(gb2);
-    QTextEdit *te = new QTextEdit();
-    gb2Layout->addWidget(te);
+    uwagi = new QTextEdit();
+    gb2Layout->addWidget(uwagi);
 
     QPushButton *pb1 = new QPushButton(QObject::tr("OK"));
     QPushButton *pb2 = new QPushButton(QObject::tr("Anuluj"));
@@ -156,11 +156,16 @@ void Window::s_zimowa(bool czy_zimowa)
 void Window::pushed_b_OK()
 
 {
-        Dialog check_dialog;
-        check_dialog.setModal(true);
-        QMessageBox::information(this, kierunek+"/n"+ kierunek , kierunek +'\n'+kierunek);
+        //Dialog check_dialog;
 
-        check_dialog.exec();
+        //check_dialog.setModal(true);
+        QMessageBox::information(this, "Potwierdzenie danych" ,
+                                 "Kierunek: " + combo->currentText() + '\n' +
+                                 "Rok: " + QString::number(spinBox->value()) + '\n' +
+                                 "Data konsultacji: " + calendar->selectedDate().toString("dd.MM.yyyy") + '\n' +
+                                 "Uwagi: " + uwagi->toPlainText() );
+
+        //check_dialog.exec();
 }
 
 

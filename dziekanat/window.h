@@ -18,7 +18,6 @@ class Window : public QWidget
     Q_OBJECT
 
 public:
-    QString kierunek="kierunek";
     Window(QWidget *parent = 0);
     ~Window();
 
@@ -30,7 +29,7 @@ private slots:
     //void show_confirmation(QString kierunek, QString rok);
 
 signals:
-    void pressed_button(QString kierunek, QString rok);
+    //void pressed_button(QString kierunek, QString rok);
 
 
 private:
@@ -38,6 +37,10 @@ private:
     QRadioButton *radio_b_1;
     QRadioButton *radio_b_2;
     QCheckBox *checkBox1;
+    QComboBox *combo;
+    QSpinBox *spinBox;
+    QTextEdit *uwagi ;
+
 
 
 };
